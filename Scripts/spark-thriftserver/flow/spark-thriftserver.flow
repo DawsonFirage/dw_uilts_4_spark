@@ -1,0 +1,19 @@
+config:
+  user.to.proxy: azkaban
+  failure.emails: zhang_dx@huawangtech.com
+
+nodes:
+
+  # 开启thriftserver服务
+  - name: open_spark_thriftserver_by_monitor
+    type: command
+    config:
+      command: ssh admin@sdw2 ' sh /home/admin/script/spark-thriftserver-monitor.sh'
+    dependsOn:
+      - stop_spark_thriftserver
+
+  # 关闭thriftserver服务
+  - name: stop_spark_thriftserver
+    type: command
+    config:
+      command: ssh admin@sdw2 ' sh /home/admin/script/spark-thriftserver.sh stop'
