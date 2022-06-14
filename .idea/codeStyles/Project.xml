@@ -1,101 +1,10 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-    <DB2CodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </DB2CodeStyleSettings>
-    <DerbyCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </DerbyCodeStyleSettings>
-    <H2CodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </H2CodeStyleSettings>
-    <HSQLCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </HSQLCodeStyleSettings>
-    <MSSQLCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </MSSQLCodeStyleSettings>
-    <MySQLCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </MySQLCodeStyleSettings>
-    <OracleCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </OracleCodeStyleSettings>
-    <PostgresCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </PostgresCodeStyleSettings>
-    <SQLiteCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </SQLiteCodeStyleSettings>
     <ScalaCodeStyleSettings>
       <option name="MULTILINE_STRING_CLOSING_QUOTES_ON_NEW_LINE" value="true" />
-      <option name="TYPE_ANNOTATION_PRIVATE_MEMBER" value="true" />
       <option name="TYPE_ANNOTATION_LOCAL_DEFINITION" value="true" />
-      <option name="TYPE_ANNOTATION_FUNCTION_PARAMETER" value="true" />
-      <option name="TYPE_ANNOTATION_UNDERSCORE_PARAMETER" value="true" />
       <option name="TYPE_ANNOTATION_EXCLUDE_MEMBER_OF_ANONYMOUS_CLASS" value="true" />
       <option name="TYPE_ANNOTATION_EXCLUDE_MEMBER_OF_PRIVATE_CLASS" value="true" />
     </ScalaCodeStyleSettings>
-    <SqlCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </SqlCodeStyleSettings>
-    <SybaseCodeStyleSettings version="2">
-      <option name="DISABLE_FORMATTING" value="true" />
-      <option name="KEYWORD_CASE" value="0" />
-      <option name="TYPE_CASE" value="0" />
-      <option name="IDENTIFIER_CASE" value="1" />
-      <option name="QUOTED_IDENTIFIER_CASE" value="1" />
-      <option name="EXPR_BINARY_OP_ALIGN" value="false" />
-    </SybaseCodeStyleSettings>
   </code_scheme>
 </component>
