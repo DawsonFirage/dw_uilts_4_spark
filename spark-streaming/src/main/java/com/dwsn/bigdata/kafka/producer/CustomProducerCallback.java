@@ -12,7 +12,7 @@ public class CustomProducerCallback {
 
         // 2 给kafka配置对象添加配置信息
         // 指定 bootstrap.servers
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "node101:9092");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "test:9092");
         // key,value序列化（必须）：key.serializer，value.serializer
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Common.KAFKA_STRING_SERIALIZATION_CLASS);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, Common.KAFKA_STRING_SERIALIZATION_CLASS);
@@ -21,7 +21,7 @@ public class CustomProducerCallback {
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
 
         // 4 调用send方法,发送消息
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             // 添加回调
             kafkaProducer.send(new ProducerRecord<>("first", "message" + i)
                     , (metadata, exception) -> {
