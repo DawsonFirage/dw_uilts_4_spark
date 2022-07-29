@@ -13,6 +13,7 @@
         <module>spark-sql</module>
         <module>spark-streaming</module>
         <module>kafka</module>
+        <module>elastic-search</module>
     </modules>
 
     <properties>
