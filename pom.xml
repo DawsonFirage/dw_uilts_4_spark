@@ -12,6 +12,7 @@
         <module>spark-core</module>
         <module>spark-sql</module>
         <module>spark-streaming</module>
+        <module>kafka</module>
     </modules>
 
     <properties>
