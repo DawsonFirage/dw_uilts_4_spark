@@ -1,8 +1,9 @@
 package com.dwsn.bigdata.utils
 
-import java.util.Date
-
 import com.dwsn.bigdata.constants.ConfConstants
+import com.dwsn.bigdata.utils.hdfsUtils.HdfsSession
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 
@@ -12,21 +13,17 @@ import org.apache.spark.sql.SparkSession
 object SparkUtils {
 
   /**
-   * 本地测试时使用默认名称
-   */
-  val DEFAULT_APP_NAME: String = s"localTest_${DateUtils.formatDate(new Date(), DateUtils.YYYYMMDDHHMMSS)}"
-
-  /**
-   * 获取Spark配置文件
-   * @param appName appName
+   * 获取基础的Spark配置文件
    * @return
    */
-  def getSparkConf(appName: String): SparkConf = {
-    val sparkConf: SparkConf = new SparkConf()
+  def getBaseSparkConf: SparkConf = {
+    val sparkConf: SparkConf = new SparkConf
 
-    // 测试时指定 AppName 和 Master
-    if ( null == sparkConf.get("spark.app.name") ) sparkConf.setAppName(appName)
-    if ( null == sparkConf.get("spark.master") ) sparkConf.setMaster("local[*]")
+    val testEnvAppName: String = s"test_${FastTimeStr.currentTime(DateUtils.YYYYMMDDHHMMSS)}"
+    val testEnvSparkMaster: String = "local[*]"
+
+    sparkConf.setAppName(sparkConf.get(ConfConstants.SPARK_APP_NAME, testEnvAppName))
+    sparkConf.setMaster(sparkConf.get(ConfConstants.SPARK_MASTER, testEnvSparkMaster))
 
     sparkConf
   }
@@ -36,18 +33,18 @@ object SparkUtils {
    * @param conf SparkConf
    * @return
    */
-  def getSparkSession(conf: SparkConf = getSparkConf(DEFAULT_APP_NAME)): SparkSession = {
+  def createSparkSession(conf: SparkConf = getBaseSparkConf): SparkSession = {
     SparkSession.builder.config(conf).getOrCreate
   }
 
   /**
    * 获取支持Hive的Spark上下文对象
+   * @param isOpenDynamicPartition 是否开启Hive动态分区：默认不开启
    * @param conf SparkConf
-   * @param isOpenDynamicPartition 是否开启Hive动态分区
    * @return
    */
-  def getSparkSessionWithHiveSupport(conf: SparkConf = getSparkConf(DEFAULT_APP_NAME))
-                                    (isOpenDynamicPartition: Boolean = false): SparkSession = {
+  def createSparkSessionWithHiveSupport(isOpenDynamicPartition: Boolean = false,
+                                        conf: SparkConf = getBaseSparkConf): SparkSession = {
     // 设置HADOOP用户，方便通过Hive向HDFS写入数据
     System.setProperty(ConfConstants.HADOOP_USER_NAME, ConfConstants.HADOOP_USER_NAME_DEFAULT_VALUE)
     if (isOpenDynamicPartition) {
@@ -65,6 +62,21 @@ object SparkUtils {
     spark
   }
 
+  /**
+   * 获取当前Spark运行环境下的 HDFS file system
+   * @param spark
+   * @return
+   */
+  def getHdfsConf(spark: SparkSession): Configuration = {
+    spark.sparkContext.hadoopConfiguration
+  }
 
+  /**
+   * 关闭SparkSession
+   * @param spark
+   */
+  def finishJob(spark: SparkSession): Unit = {
+    spark.close()
+  }
 
 }
