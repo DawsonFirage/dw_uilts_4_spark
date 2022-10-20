@@ -1,4 +1,4 @@
-package com.dwsn.bigdata.utils;
+package com.dwsn.bigdata.util;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -7,19 +7,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author : Abo
  * @date : 2022/1/1 14:04
  */
-public class DateUtils {
+public class DateUtil {
 
     public static final String YYYYMMDD = "yyyyMMdd";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";

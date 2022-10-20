@@ -1,4 +1,4 @@
-package com.dwsn.bigdata.utils
+package com.dwsn.bigdata.util
 
 import java.util.Date
 
@@ -14,9 +14,9 @@ object FastTimeStr {
    * @param format 时间格式：默认 yyyy-MM-dd
    * @return
    */
-  def today(format: String = DateUtils.YYYY_MM_DD): String = {
+  def today(format: String = DateUtil.YYYY_MM_DD): String = {
     val todayDate: Date = new Date()
-    DateUtils.formatDate(todayDate, format)
+    DateUtil.formatDate(todayDate, format)
   }
 
   /**
@@ -24,7 +24,7 @@ object FastTimeStr {
    * @param format 时间格式：默认 yyyy-MM-dd HH:mm:ss
    * @return
    */
-  def currentTime(format: String = DateUtils.YYYY_MM_DD_HH_MM_SS): String = {
+  def currentTime(format: String = DateUtil.YYYY_MM_DD_HH_MM_SS): String = {
     today(format)
   }
 
@@ -33,9 +33,9 @@ object FastTimeStr {
    * @param format 时间格式：默认 yyyy-MM-dd
    * @return
    */
-  def yesterday(format: String = DateUtils.YYYY_MM_DD): String = {
-    val yesterdayDate: Date = DateUtils.getBeforeByDays(1)
-    DateUtils.formatDate(yesterdayDate, format)
+  def yesterday(format: String = DateUtil.YYYY_MM_DD): String = {
+    val yesterdayDate: Date = DateUtil.getBeforeByDays(1)
+    DateUtil.formatDate(yesterdayDate, format)
   }
 
   /**
@@ -43,9 +43,9 @@ object FastTimeStr {
    * @param format 时间格式：默认 yyyy-MM-dd
    * @return
    */
-  def tomorrow(format: String = DateUtils.YYYY_MM_DD): String = {
-    val tomorrowDate: Date = DateUtils.getAfterByDays(1)
-    DateUtils.formatDate(tomorrowDate, format)
+  def tomorrow(format: String = DateUtil.YYYY_MM_DD): String = {
+    val tomorrowDate: Date = DateUtil.getAfterByDays(1)
+    DateUtil.formatDate(tomorrowDate, format)
   }
 
 }

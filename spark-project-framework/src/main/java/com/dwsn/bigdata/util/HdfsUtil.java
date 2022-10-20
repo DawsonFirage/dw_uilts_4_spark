@@ -1,4 +1,4 @@
-package com.dwsn.bigdata.utils;
+package com.dwsn.bigdata.util;
 
 import com.dwsn.bigdata.constants.ConfConstants;
 import org.apache.hadoop.conf.Configuration;
@@ -19,9 +19,9 @@ import java.net.URISyntaxException;
  * @author Dawson
  * @date 2022-9-30 15:58:43
  */
-public class HdfsUtils {
+public class HdfsUtil {
 
-    private HdfsUtils() {}
+    private HdfsUtil() {}
 
     private static String HDFS_DEFAULT_FS = "fs.defaultFS";
 
