@@ -1,5 +1,6 @@
 package com.dwsn.bigdata.common
 
+import com.dwsn.bigdata.constants.ConfConstants
 import com.dwsn.bigdata.enums.AppModel
 import com.dwsn.bigdata.enums.AppModel.AppModel
 import com.dwsn.bigdata.util.{EnvUtil, SparkInitializeUtil}
@@ -17,7 +18,9 @@ trait TApplication {
   def start(model: AppModel = AppModel.Cluster, hiveSupport: Boolean= true)(op: => Unit): Unit = {
 
     val conf: SparkConf = model match {
-      case AppModel.Local => new SparkConf().setAppName(getClass.getSimpleName.replace("$", "")).setMaster("local[*]")
+      case AppModel.Local => new SparkConf().setMaster("local[*]")
+        .setAppName(getClass.getSimpleName.replace("$", ""))
+        .set(ConfConstants.HIVE_METASTORE_URIS, ConfConstants.HIVE_METASTORE_URIS_DEFAULT_VALUE)
       case AppModel.Cluster => new SparkConf()
     }
 
@@ -32,11 +35,11 @@ trait TApplication {
     try {
       op
     } catch {
-      case ex: Exception => println(ex.getMessage)
+      case ex: Exception => throw ex
+    } finally {
+      spark.close()
+      EnvUtil.clear()
     }
-
-    spark.close()
-    EnvUtil.clear()
 
   }
 

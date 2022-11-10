@@ -20,6 +20,7 @@ object ConfConstants {
    * Hive conf name & default value
    */
   val HIVE_METASTORE_URIS: String = "hive.metastore.uris"
+  val HIVE_METASTORE_URIS_DEFAULT_VALUE: String = "thrift://192.168.101.223:9083"
   val HIVE_EXEC_DYNAMIC_PARTITION: String = "hive.exec.dynamic.partition"
   val HIVE_EXEC_DYNAMIC_PARTITION_MODE: String = "hive.exec.dynamic.partition.mode"
 

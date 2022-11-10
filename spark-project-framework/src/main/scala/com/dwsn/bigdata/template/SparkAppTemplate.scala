@@ -5,9 +5,9 @@ import org.apache.spark.sql.SparkSession
 
 object SparkAppTemplate extends App {
 //  private val spark: SparkSession = SparkInitializeUtil.createSparkSession()
-  private val spark: SparkSession = SparkInitializeUtil.createSparkSessionWithHiveSupport()
+//  private val spark: SparkSession = SparkInitializeUtil.createSparkSessionWithHiveSupport()
 
   // something to run...
 
-  spark.close()
+//  spark.close()
 }
