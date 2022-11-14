@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * @author : Abo
+ * @author : Dawson
  * @date : 2022/1/1 14:04
  */
 public class DateUtil {
@@ -336,6 +336,32 @@ public class DateUtil {
      */
     public static long differDays(Date startDate, Date endDate) {
         return differHours(startDate, endDate) / 24;
+    }
+
+    /**
+     * 获取本月第一天
+     *
+     * @param date 日期
+     * @return 本月第一天的开始时间, 即00:00:00:000
+     */
+    public static Date getFirstDayOfThisMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取本月最后一天
+     *
+     * @param date 日期
+     * @return 本月最后一天的结束时间, 即00:00:00:000
+     */
+    public static Date getLastDayOfThisMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return calendar.getTime();
     }
 
     /**
