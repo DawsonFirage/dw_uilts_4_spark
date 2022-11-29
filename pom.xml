@@ -16,6 +16,7 @@
         <module>elastic-search</module>
         <module>spark-project-framework</module>
         <module>analyzer-test</module>
+        <module>design-pattern</module>
     </modules>
 
     <properties>
