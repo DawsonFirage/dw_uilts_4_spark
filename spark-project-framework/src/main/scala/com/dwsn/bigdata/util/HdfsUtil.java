@@ -23,8 +23,6 @@ public class HdfsUtil {
 
     private HdfsUtil() {}
 
-    private static String HDFS_DEFAULT_FS = "fs.defaultFS";
-
     /**
      * 通过设置HDFS及用户使用文件系统
      * @param url
@@ -40,19 +38,6 @@ public class HdfsUtil {
     }
 
     /**
-     * 使用默认值初始化
-     */
-    public static HdfsSession initialize()
-            throws URISyntaxException, IOException, InterruptedException {
-        String url = ConfConstants.HDFS_DEFAULT_FS_DEFAULT_VALUE();
-        Configuration conf = new Configuration();
-        //配置集群上运行
-        conf.set(HDFS_DEFAULT_FS, url);
-        String user = ConfConstants.HADOOP_USER_NAME_DEFAULT_VALUE();
-        return initialize(url, conf, user);
-    }
-
-    /**
      * 通过传入conf初始化
      * @param conf
      * @param user
@@ -60,7 +45,7 @@ public class HdfsUtil {
      */
     public static HdfsSession initialize(Configuration conf, String user)
             throws URISyntaxException, IOException, InterruptedException {
-        String url = conf.get(HDFS_DEFAULT_FS);
+        String url = conf.get(ConfConstants.HDFS_DEFAULT_FS());
         return initialize(url, conf, user);
     }
 

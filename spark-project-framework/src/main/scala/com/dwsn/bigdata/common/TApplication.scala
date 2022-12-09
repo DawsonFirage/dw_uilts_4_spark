@@ -20,7 +20,7 @@ trait TApplication {
     val conf: SparkConf = model match {
       case AppModel.Local => new SparkConf().setMaster("local[*]")
         .setAppName(getClass.getSimpleName.replace("$", ""))
-        .set(ConfConstants.HIVE_METASTORE_URIS, ConfConstants.HIVE_METASTORE_URIS_DEFAULT_VALUE)
+        .set(ConfConstants.HIVE_METASTORE_URIS, "thrift://192.168.101.223:9083")
       case AppModel.Cluster => new SparkConf()
     }
 
