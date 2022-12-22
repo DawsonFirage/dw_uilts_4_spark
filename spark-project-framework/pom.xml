@@ -51,6 +51,12 @@
             <version>0.13.1</version>
         </dependency>
 
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!-- 打包，包含依赖 -->

@@ -39,7 +39,37 @@
         <!-- DataBase版本 -->
         <mysql.version>5.1.47</mysql.version>
         <pg.version>42.1.4</pg.version>
+
+        <jackson.version>2.11.0</jackson.version>
     </properties>
+
+    <repositories>
+        <!-- 阿里云仓库 -->
+        <repository>
+            <id>aliyun</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+
+        <!-- CDH仓库 -->
+        <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+
+        <repository>
+            <id>es-snapshots</id>
+            <name>elasticsearch snapshot repo</name>
+            <url>https://snapshots.elastic.co/maven/</url>
+        </repository>
+
+        <repository>
+            <id>sonatype-oss</id>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <!-- 子项目会自动导入父项目的dependencies中的所有依赖 -->
     <!-- 子项目中不应该再导入父项目中的依赖，尤其是不指明version时，会导致Cannot resolve (依赖名):unknown -->
@@ -105,6 +135,14 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${pg.version}</version>
+            </dependency>
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <!--（起码1.2.48以上）因为这个版本一下存在漏洞-->
+                <version>1.2.49</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
