@@ -4,15 +4,19 @@ import com.dawson.ansj.udf.Udf
 import com.dwsn.bigdata.common.TApplication
 import com.dwsn.bigdata.enums.AppModel
 import com.dwsn.bigdata.util.EnvUtil
-import org.apache.spark.mllib.feature.{HashingTF, IDF, IDFModel}
-import org.apache.spark.mllib.linalg
-import org.apache.spark.mllib.linalg.SparseVector
-import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.feature.{CountVectorizer, CountVectorizerModel, IDF}
+import org.apache.spark.ml.linalg.SparseVector
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.StringType
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
-object TfidfTest extends App with TApplication{
+import scala.collection.mutable
 
-  start(AppModel.Local){
+object TfidfTest2 extends App with TApplication {
+
+  start(AppModel.Local) {
     val spark: SparkSession = EnvUtil.get()
     import spark.implicits._
 
@@ -29,55 +33,82 @@ object TfidfTest extends App with TApplication{
       Nil
 
     spark.udf.register("analysis", Udf.analysis _)
-    val contentAndWordDF: DataFrame = contentList.toDF("content")
+    val contentDF: DataFrame = contentList.toDF("content")
       //      .selectExpr("md5(content) as id", "split(analysis(content), ',') as word_list")
-      .selectExpr("content", "split(analysis(content), ',') as word_list")
-
-    // 获取content，为了后面关联。
-    val contentRDD: RDD[String] = contentAndWordDF.select("content").as[String].rdd
-
-    val wordSeqRDD: RDD[Seq[String]] = contentAndWordDF
-      .select("word_list")
-      .as[Seq[String]].rdd
-
-    val hashingTF = new HashingTF()
-
-    // 记录所有单词的下表映射(词向量, 词)
-    val mapWord: Map[Int, String] = wordSeqRDD
-      .flatMap(seq => seq)
-      .map(word => (hashingTF.indexOf(word), word))
-      .collect.toMap
-
-    val tf: RDD[linalg.Vector] = hashingTF.transform(wordSeqRDD)
-
-    tf.cache()
-
-    val idf: IDFModel = new IDF().fit(tf)
-    val tfidf: RDD[linalg.Vector] = idf.transform(tf)
-
-    val wordTfidfRDD: RDD[Seq[(String, Double)]] = tfidf.map {
-      case SparseVector(size, indices, value) =>
-        // 使用之前的mapWord把对应的index转换成具体的单词。格式(word, tfidf权重)
-        val word: Array[String] = indices.map(index => mapWord.getOrElse(index, null))
-        word.zip(value).sortBy(-_._2).take(20).toSeq
-    }
-
-    val resultDF: DataFrame = contentRDD.zip(wordTfidfRDD)
+      .selectExpr("content as id", "split(analysis(content), ',') as words")
       .map {
-        case (content: String, wordList: Seq[(String, Double)]) => {
-          (content, wordList.toString)
+        case Row(id: String, words: mutable.WrappedArray[String]) => {
+          val onlyWords: mutable.Seq[String] = words.map(_.split("/")(0))
+          (id, onlyWords)
         }
       }
-      .toDF("content", "word_list")
+      .toDF("id", "words")
 
-//    resultDF.show()
+    val countVectorizerModel: CountVectorizerModel = new CountVectorizer()
+      .setInputCol("words")
+      .setOutputCol("rawFeatures")
+      .fit(contentDF)
 
-    resultDF.write.format("com.crealytics.spark.excel")
+    // TODO 此处相当于将所有分词后的数据全部加载进Driver的内存中，是不健康的操作。应该考虑用其他方式代替。
+    val arr: Array[String] = countVectorizerModel.vocabulary
+    val arr1: Array[Int] = arr.indices.toArray
+    val indicesMap: Map[Int, String] = arr1.zip(arr).toMap
+    val bc: Broadcast[Map[Int, String]] = spark.sparkContext.broadcast(indicesMap)
+
+    val wordTf: DataFrame = countVectorizerModel.transform(contentDF)
+
+    val wordTfIdf: DataFrame = new IDF()
+      .setInputCol("rawFeatures")
+      .setOutputCol("features")
+      .fit(wordTf)
+      .transform(wordTf)
+
+    val eachWordDF: DataFrame = wordTfIdf
+      .flatMap(
+        row => {
+          val id: String = row.getAs[String]("id")
+
+          val indMap: Map[Int, String] = bc.value
+
+          val rawFeatures: SparseVector = row.getAs[SparseVector]("rawFeatures")
+          val rawFeaturesIndices: Array[Int] = rawFeatures.indices
+          val rawFeaturesValues: Array[Double] = rawFeatures.values
+
+          val features: SparseVector = row.getAs[SparseVector]("features")
+          val featuresIndices: Array[Int] = features.indices
+          val featuresValues: Array[Double] = features.values
+
+          rawFeaturesIndices.zip(rawFeaturesValues).zip(featuresIndices).zip(featuresValues).map {
+            case (((tfIndice, tfValue), tfIdfIndice), tfIdfValue) =>
+              (id, indMap.get(tfIndice), tfIndice, tfValue, tfIdfIndice, tfIdfValue)
+          }
+        }
+      )
+      .toDF("id", "word", "tf_indice", "tf_value", "tf_idf_indice", "tf_idf_value")
+
+    val topWords = eachWordDF
+      .withColumn("rn",
+        row_number().over(
+          Window.partitionBy("id").orderBy(col("tf_idf_value").desc)
+        )
+      )
+      .filter(col("rn") <= 10)
+      .orderBy(col("id"), col("tf_idf_value").desc)
+      .groupBy("id")
+      .agg(collect_list(
+        struct(
+          col("word"),
+          col("tf_indice"),
+          col("tf_value"),
+          col("tf_idf_indice"),
+          col("tf_idf_value")
+        )
+      ).alias("topWords"))
+      .select(col("id"), col("topWords").cast(StringType).alias("topWords"))
+
+    topWords.write.format("com.crealytics.spark.excel")
       .option("header", "true")
-      .save("output/TfIdfDemo/TfIdfDemo.xlsx")
-
-    spark.close()
-
+      .save("output/TfIdfDemo/TfIdfDemo2.xlsx")
 
   }
 
