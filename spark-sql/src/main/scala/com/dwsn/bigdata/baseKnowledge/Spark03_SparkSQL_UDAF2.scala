@@ -34,7 +34,7 @@ object Spark03_SparkSQL_UDAF2 {
    * 2 重写方法（6）
    * 3 注册udaf方法
    */
-  // 定义BUF的数据类型，case class默认属性为val，因为BUF的数据需要变化，故应定义为var
+  // 定义BUF的数据类型，joinCase class默认属性为val，因为BUF的数据需要变化，故应定义为var
   case class Buff( var total:Long, var count: Long)
   class MyAvgUDAF extends Aggregator[Long, Buff, Long] {
     // z & zero : 初始化或零值
