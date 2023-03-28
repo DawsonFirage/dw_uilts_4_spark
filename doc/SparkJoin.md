@@ -216,7 +216,19 @@ on t1.id = t2.id
 
 # 2 Join算法
 
-## 2.1 Hash Join（大+小）
+## 2.1 Nested-Loop Join
+
+最基本的Nested-Loop 算法，其实就是暴力求解，通过穷举每一个可能来判断是否满足条件，如果满足就输出这个元组。
+
+Nested Loop join 的执行看做下面的计算：
+
+```python
+for record_1 in relation_1:
+  for record_2 in relation_2:
+    # join condition...
+```
+
+## 2.2 Hash Join（大+小）
 
 ![image-20230323155216998](SparkJoin.assets/image-20230323155216998.png)
 
@@ -230,7 +242,7 @@ on t1.id = t2.id
 
 > Hash Join的时间复杂度仅为O(a+b)，相较于最极端的笛卡尔积（时间复杂度O(ab)）提升巨大。
 
-## 2.2 Sort Merge Join（大+大）
+## 2.3 Sort Merge Join（大+大）
 
 ![image-20230324161422620](SparkJoin.assets/image-20230324161422620.png)
 
@@ -301,13 +313,7 @@ Cartesian Join即笛卡尔积，也叫做Shuffle-and-replicate Nested Loop Join�
 
 ## 3.5 Broadcast Nested Loop Join
 
-Broadcast nested loop join 支持等值和不等值 Join，支持所有的 Join 类型。是在没有合适的JOIN机制可供选择时，最终会选择的策略。Broadcast nested loop join 的执行看做下面的计算：
-
-```python
-for record_1 in relation_1:
-  for record_2 in relation_2:
-    # join condition...
-```
+Broadcast nested loop join 支持等值和不等值 Join，支持所有的 Join 类型。是在没有合适的JOIN机制可供选择时，最终会选择的策略。
 
 其中，不同类型的Join会有不同的具体实现，具体实现方式参考org.apache.spark.sql.execution.joins.BroadcastNestedLoopJoinExec
 
