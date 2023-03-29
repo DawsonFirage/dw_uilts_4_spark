@@ -82,7 +82,6 @@ object SparkSQL02_JoinType {
         |select *
         |from t1
         |cross join t2
-        |on t1.id = t2.id
         |""".stripMargin).show()
 
 

@@ -185,8 +185,7 @@ CROSS JOIN会返回两张表的笛卡尔积，即将左表的每一条数据都�
 ```sql
 select t1.*, t2.*
 from t1
-left join t2
-on t1.id = t2.id
+cross join t2
 ```
 
 | id|name| id|gender|
