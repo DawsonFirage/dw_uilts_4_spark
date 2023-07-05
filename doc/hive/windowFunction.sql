@@ -33,7 +33,7 @@ SELECT * FROM business;
 --     UNBOUNDED PRECEDING: 表示从前面的起点
 --     UNBOUNDED FOLLOWING: 表示到后面的终点
 -- LAG(col, n, default_val):往前第n行数据
--- LEAD(col, n, default_val):往后第n行数据u
+-- LEAD(col, n, default_val):往后第n行数据
 -- NTILE(n):把有序窗口的行分发到指定数据的组中，各个组有编号，编号从1开始，对于每一行，NTLE返回此行所属的组的编号。注意：n必须为it类型。
 
 ---------------------------------------------------------------
