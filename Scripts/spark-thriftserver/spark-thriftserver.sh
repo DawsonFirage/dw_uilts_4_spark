@@ -10,7 +10,7 @@
 
 # 生效对应的环境变量
 export ADMIN_PATH=/home/admin
-source ${ADMIN_PATH}/bin/common/common.sh
+#source ${ADMIN_PATH}/bin/common/common.sh
 
 
 # 需要预先配置环境变量
@@ -67,7 +67,7 @@ if [ "${arg}" == "start" ];then
     if [ $? -eq 0 ]; then
         echo "Thrift Server启动成功！"
     else
-        echo "Thrift Server启动失败，请查看日志！！"
+        echo "[ERROR] Thrift Server启动失败，请查看日志！！"
         cat ${SPARK_HOME}/log/spark-admin-org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-1-mdw.out
     fi
     
@@ -75,7 +75,18 @@ if [ "${arg}" == "start" ];then
 elif [ "${arg}" == "stop" ];then
     ps -aux | grep 10086 | grep spark-thriftserver
     if [ $? -eq 0 ]; then
-        ps -aux | grep 10086 | grep spark-thriftserver | gawk '{print $2}' | xargs -n1 kill -9
+        ps -aux | grep 10086 | grep spark-thriftserver | gawk '{print $2}' | xargs -n1 kill -15
+    else
+        echo "[ERROR] 未发现Thrift Server进程！"
+    fi
+
+    # kill 后等待程序关闭，端口释放
+    sleep 5s
+    ps -aux | grep 10086 | grep spark-thriftserver
+    if [ $? -eq 0 ]; then
+        echo "Thrift Server关闭成功！"
+    else
+        echo "[ERROR] Thrift Server关闭失败！请查看日志！！"
     fi
 else
     echo "请使用:spark-thriftserver.sh <start/stop>"
