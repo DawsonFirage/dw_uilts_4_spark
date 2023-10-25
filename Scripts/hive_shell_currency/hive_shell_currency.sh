@@ -24,7 +24,7 @@ today_day=`date +%Y-%m-%d`
 # shift
 sub_project=$1
 echo "sub_project="$sub_project
-dw_dir="/home/admin/dw"
+dw_dir="/home/admin/${HIVE_DB}"
 echo "dw_dir="$dw_dir
 arr=(${sub_project//_/ })
 sub_project_base_dir=$dw_dir/${arr[0]}
