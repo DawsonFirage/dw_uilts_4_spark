@@ -17,6 +17,7 @@
         <module>spark-project-framework</module>
         <module>analyzer-test</module>
         <module>design-pattern</module>
+        <module>holiday-api</module>
     </modules>
 
     <properties>
